@@ -1,0 +1,22 @@
+Name,BackgroundColour,NavColour,FrameColour,TextColour,StatsTextColour,TitleTextColour,SessionTextColour,ButtonColour,ButtonTextColour,HoverColour,RadioColour,EntryColour,InputColour,GraphLineColour,LabelColour,LabelTextColour,GraphColour,ValidityText,RadioHover,TimesTextColour
+
+Default,#dededc,#c7c7c7,#ffffff,black,black,black,black,#e0e0e0,black,#f0f0ee,black,black,#7b7c79,black,white,black,#ffffff,black,#7b7c79,black
+Grimace,#5e548e,#4c4473,#c6bfc9,white,black,black,black,#7d67bf,white,#8b7bbd,#4c4473,#4c4473,#231942,#231942,white,black,white,#231942,#8b7bbd,white
+Aquamarine,#50BFAB,#3A8A7B,white,white,black,black,black,#75bdb0,white,#93c9bf,#3A8A7B,#3A8A7B,#3A8A7B,#3A8A7B,white,black,white,#3A8A7B,#93c9bf,white
+Matte Black,#232629,#1d1e21,#2c2e30,#ced4da,#ced4da,#ced4da,#ced4da,#232629,white,#3a4047,#ced4da,#17181a,#17181a,white,white,black,#2c2e30,white,#3a4047,white
+Violet,#D0BFFF,#BEADFA,#DFCCFB,black,black,black,black,#BEADFA,black,#D0BFFF,#BEADFA,#BEADFA,#5e548e,#5e548e,white,black,#DFCCFB,black,#D0BFFF,black
+Sage Green,#7EAA92,#6e9680,#95c7ac,#FFD9B7,black,black,black,#729c84,black,#7EAA92,#60826f,#60826f,#60826f,#60826f,white,black,#95c7ac,black,#7EAA92,black
+Eggplant,#3F3244,#2F2235,#544152,#A9ACA9,white,white,#BFC3BA,#372A3D,#BFC3BA,#4A3A4B,#372A3D,#372A3D,#2F2235,white,#73626E,black,#544152,white,#4A3A4B,#BFC3BA
+Barbie,#C96781,#D34F73,#ffb6c1,white,black,black,black,#D15577,black,#C96781,#D34F73,#D34F73,#D34F73,black,#ffb6c1,black,#ffb6c1,black,#C96781,black
+Wine,#812B39,#702632,#912F40,white,white,white,white,#6A2A36,white,#792936,#642E39,#642E39,#642E39,white,white,black,#912F40,white,#792936,white
+Baby Shark,#58A4B0,#373F51,#A9BCD0,white,black,black,black,#D8DBE2,#373F51,#C1CCD9,#373F51,#373F51,#373F51,#405969,white,#081c15,#A9BCD0,black,#487281,#373F51
+Beach,#c09d69,#503417,#e5cfab,white,black,black,black,#2c6d93,white,#28bbb8,#2c6d93,#2c6d93,#2c6d93,#2c6d93,white,black,#e5cfab,#2c6d93,#28bbb8,white   
+Special Sauce,#8c271e,#a42cd6,#e3c0d3,#3685b5,#a42cd6,#3484b4,#3484b4,#5c6c54,#a8c69f,#333730,#a42cd3,#5c6c54,#5c6c54,#5c6c54,#a42cd6,white,#a8c69f,green,green,red
+Grimace's Son,#736CED,#736CED,#9F9FED,#FEF9FF,black,black,black,#736CED,#FEF9FF,#8b86eb,#736CED,#736CED,#736CED,black,white,black,#9F9FED,black,#8b86eb,#FEF9FF
+Terracotta,#C89FA3,#A67F8E,#DBB3B1,#2C1A1D,#2C1A1D,#2C1A1D,#2C1A1D,#6C534E,white,#755f5a,#6C534E,#6C534E,#6C534E,#2C1A1D,white,#2C1A1D,#DBB3B1,#2C1A1D,#755f5a,white
+Baby Blue,#A0D2DB,#80bac4,#BEE7E8,black,black,black,black,#80bac4,black,#A0D2DB,#80bac4,#80bac4,#6ba5b0,#6ba5b0,white,black,#BEE7E8,black,#A0D2DB,black
+Baby Pink,#E5CEDC,#BCA3AC,#F3EAF4,black,black,black,black,#E5CEDC,black,#BCA3AC,#BCA3AC,#BCA3AC,#a39198,#a39198,white,black,#F3EAF4,black,#E5CEDC,black
+BumbleBee,#cfc863,#2D2A32,#EEEFA8,#2D2A32,#2D2A32,#2D2A32,#2D2A32,#cfc863,black,#dbd57b,#2D2A32,#2D2A32,#5e5a63,#2D2A32,white,#2D2A32,#EEEFA8,#2D2A32,#5e5a63,#2D2A32
+Grimace's Daughter?,#8E9DCC,#7D84B2,#D9DBF1,black,black,black,black,#8E9DCC,black,#7D84B2,#7D84B2,#7D84B2,#6a73b0,#6a73b0,white,black,#D9DBF1,black,#8E9DCC,black
+Pinky,#EAC9C1,#D3AB9E,#EBD8D0,black,black,black,black,#FFFBFF,black,#f0f0ee,#D3AB9E,#D3AB9E,#D3AB9E,black,#EAC9C1,black,#EBD8D0,black,#EAC9C1,black
+Dandelion,#F2EF9E,#DCD789,#FFFCBB,black,black,black,black,#E6E18F,black,#aba768,#D1CD82,#D1CD82,#a19c40,black,white,black,#FFFCBB,black,#aba768,black
