@@ -29,3 +29,5 @@ binddnf,1
 bind2,2
 binddelete,3
 bindok,4
+currentsession,Playground
+currentsessiontype,3x3

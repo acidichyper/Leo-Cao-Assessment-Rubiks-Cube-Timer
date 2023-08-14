@@ -29,7 +29,7 @@ def reset():                 #Function to clear and reset the frames (Tabs)
     def resetting(frame):                       #Function to delete the frame
         for widget in frame.winfo_children():   #Clearing the Frame
             widget.destroy()
-        frame.grid_forget()                     #Deleting the Frame
+        frame.place_forget()                     #Deleting the Frame
 
     resetting(timer_frame)                      #Resetting every frame
     resetting(stats_frame)
@@ -41,15 +41,22 @@ def SettingsGUI():           #Function for settings interface                   
 
     reset()                                                                                 #Removing the previous Frames
 
-    settings_frame.grid(column = 1, row = 0, rowspan = 40)                                  #Creating the settings intenrface frame
+    settings_frame.place(relx = 0.55, rely = 0.5, relheight=1, relwidth=0.9, anchor=CENTER) #Creating the settings intenrface frame
 
     #Creating the frames - Settings and themes
-    themes_frame = ctk.CTkScrollableFrame(settings_frame, fg_color = framecolour, height=380, width=500,
+    themes_frame = ctk.CTkScrollableFrame(settings_frame, fg_color = framecolour,
                     scrollbar_button_color = navcolour, scrollbar_button_hover_color = backgroundcolour)
-    themes_frame.place(relx=0.335, rely=0.5, anchor=CENTER)
+    themes_frame.place(relx=0.335, rely=0.5, relheight=0.87, relwidth=0.6, anchor=CENTER)
+
+    themes_frame.grid_columnconfigure(0, weight=1)                                          #Making the gridding adjust to frame size
+    themes_frame.grid_columnconfigure(1, weight=8)
+    themes_frame.grid_columnconfigure(2, weight=8)
+    themes_frame.grid_columnconfigure(3, weight=8)
+    themes_frame.grid_columnconfigure(4, weight=8)
+    themes_frame.grid_columnconfigure(5, weight=8)
 
     settingschoosing_frame = ctk.CTkFrame(settings_frame, fg_color = framecolour, height=390, width=260)
-    settingschoosing_frame.place(relx=0.815, rely=0.5, anchor=CENTER)
+    settingschoosing_frame.place(relx=0.815, rely=0.5, relheight=0.87, relwidth=0.3, anchor=CENTER)
     
     def settings():                             #Function for settings
 
@@ -162,7 +169,7 @@ def SettingsGUI():           #Function for settings interface                   
 
             ctk.CTkSwitch(settingschoosing_frame, text="", command=switch_event, switch_width=40, button_color = navcolour,
                           variable=switch_var, onvalue="True", offvalue="False", progress_color = backgroundcolour, 
-                          button_hover_color=hovercolour).place(relx=0.61, rely=0.54, anchor=W)
+                          button_hover_color=hovercolour).place(relx=0.9, rely=0.54, anchor=CENTER)
 
 
             """Average Button 1"""
@@ -185,11 +192,11 @@ def SettingsGUI():           #Function for settings interface                   
 
             avgvar1 = StringVar()                                                           #Creating a string variable for the entry
 
-            avgentry1 = ctk.CTkEntry(settingschoosing_frame, width = 60, height= 25, border_color=entrycolour,
+            avgentry1 = ctk.CTkEntry(settingschoosing_frame, height= 25, border_color=entrycolour,
                             font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"), textvariable = avgvar1,
                             fg_color = framecolour, text_color=statstextcolour, justify="left",)
             
-            avgentry1.place(relx=0.58, rely=0.62, anchor=W)                                 #Creating the first average entry
+            avgentry1.place(relx=0.88, rely=0.62, relwidth = 0.25, anchor=E)                #Creating the first average entry
             avgentry1.insert(0, avg1)                                                       #Putting a placeholder for the entry
             avgentry1.bind("<KeyRelease>", OnEntryClick1)                                   #Make the entry check if a key has been pressed
             avgentry1.bind("<Button-1>", click1)                                            #Make the entry check if it has been clicked
@@ -219,7 +226,7 @@ def SettingsGUI():           #Function for settings interface                   
                             font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"), textvariable = avgvar2,
                             fg_color = framecolour, text_color=statstextcolour, justify="left",)
             
-            avgentry2.place(relx=0.58, rely=0.69, anchor=W)                                 #Creating the second average entry
+            avgentry2.place(relx=0.88, rely=0.69, relwidth = 0.25, anchor=E)                #Creating the second average entry
             avgentry2.insert(0, avg2)                                                       #Putting a placeholder for the entry
             avgentry2.bind("<KeyRelease>", OnEntryClick2)                                   #Make the entry check if a key has been pressed
             avgentry2.bind("<Button-1>", click2)                                            #Make the entry check if it has been clicked
@@ -535,12 +542,16 @@ def SettingsGUI():           #Function for settings interface                   
             for i in range(len(variables)):
                 if i == 0:                                                                  #Alternate between printing theme and seperator
                     ctk.CTkButton(themes_frame, hover = False, height=45, border_spacing = 0, command = lambda s=num: changetheme(s),
-                            fg_color = file.loc[index, variables[i]], text = file.loc[index, "Name"], width= 160, corner_radius=5,
+                            fg_color = file.loc[index, variables[i]], text = file.loc[index, "Name"], corner_radius=5,
                             text_color = file.loc[index, "TextColour"], font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
                             ).grid(row = index+1, column = i, padx = (40,3))
+                elif i == 5: 
+                    ctk.CTkButton(themes_frame, hover = False, height=45, border_spacing = 0, command = lambda s=num: changetheme(s),
+                            fg_color = file.loc[index, variables[i]], text = "", corner_radius=4
+                            ).grid(row = index+1, column = i, pady = 17, padx = (1, 40))
                 else:                                                                       #Printing the seperator
                     ctk.CTkButton(themes_frame, hover = False, height=45, border_spacing = 0, command = lambda s=num: changetheme(s),
-                            fg_color = file.loc[index, variables[i]], text = "", width= 45, corner_radius=4
+                            fg_color = file.loc[index, variables[i]], text = "", corner_radius=4
                             ).grid(row = index+1, column = i, pady = 17, padx = 1)
                 
         def TotalSolves():                      #Calculate the total solves in the session
@@ -552,14 +563,14 @@ def SettingsGUI():           #Function for settings interface                   
             j += 1                                                                          #Changing the function
             themelayouts(i,j)                                                               #Printing all the themes by calling the function
 
-    theme()                                     #Calling the themes interface
+    theme()                                     #Calling the themes in  terface
     
 def EditsessionGUI():        #Funtion for the Edit Sessions interface                           (EDIT SESSIONS MINI-INTERFACE)
     global deletesessionbutton, editsessionbutton, chosensessiontype, confirmbutton, validitylabel
 
     """Creating the edit sessions mini-interface"""
     Stats_frame = ctk.CTkFrame(session_frame, fg_color = framecolour,  width = 180, height = 295)
-    Stats_frame.place(relx=0.857, rely=0.393, anchor=CENTER)
+    Stats_frame.place(relx=0.857, rely=0.393, relheight=0.67, relwidth=0.22, anchor=CENTER)
 
     ctk.CTkLabel(Stats_frame, text = "["+session+"]",                                               #Sessions type
                  font = ctk.CTkFont(family = "Calibri", size=12),
@@ -608,7 +619,11 @@ def EditsessionGUI():        #Funtion for the Edit Sessions interface           
             file.loc[findrow(), "Session Type"] = chosensessiontype.get()   #Updating the sessions type accordingly
             file.to_csv("Users_Sessions.csv", index=False)
 
-            session = chosensessiontype.get()                               #Updating the current selected session
+            settingsfile = pd.read_csv("Users_Settings.csv")                #Updating the current selected session
+            session = settingsfile.iloc[31, 1] = chosensessiontype.get()
+
+            settingsfile.to_csv("Users_Settings.csv", index=False)
+
             SessionsGUI()                                                   #Resetting the sessions interface
 
 
@@ -628,7 +643,10 @@ def EditsessionGUI():        #Funtion for the Edit Sessions interface           
                 file.loc[findrow(), "Session Name"] = nameentry2.get()                  #Updating the sessions name accordingly  
                 file.to_csv("Users_Sessions.csv", index=False)
 
-                sessionname = nameentry2.get()                                          #Updating the current selected session
+                settingsfile = pd.read_csv("Users_Settings.csv")                         #Reading the settings csv file
+                sessionname = settingsfile.iloc[30, 1] = nameentry2.get()                #Updating the current selected session
+
+                settingsfile.to_csv("Users_Settings.csv", index=False)
 
                 if chosensessiontype.get() != "": editsessionstype()                    #Checking if any session type is selected
                 else: SessionsGUI()                                                     #If not the reset the sessions interface
@@ -657,7 +675,7 @@ def EditsessionGUI():        #Funtion for the Edit Sessions interface           
                             font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
                             fg_color = framecolour, text_color=statstextcolour, justify="center",
                             border_color=entrycolour)
-    nameentry2.place(relx=0.5, rely=0.42, anchor=CENTER)                
+    nameentry2.place(relx=0.5, rely=0.42, relheight=0.09, relwidth=0.8, anchor=CENTER)                
 
     nameentry2.bind("<Button-1>", click)                                #Make the entry box detect in the user has clicked on it 
     Stats_frame.bind("<Motion>", sessionleave)
@@ -676,31 +694,35 @@ def EditsessionGUI():        #Funtion for the Edit Sessions interface           
     chosensessiontype = StringVar()                                     #Creating a StringVar for the ComboBox
 
     #Creating the ComboBox
-    sessionentrychange = ctk.CTkComboBox(Stats_frame, variable = chosensessiontype, width = 140,
+    sessionentrychange = ctk.CTkComboBox(Stats_frame, variable = chosensessiontype,
                 values = sessiontypes, font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
                 fg_color = framecolour, text_color=statstextcolour, state = "readonly", justify="center", 
                 border_color = entrycolour, button_color = entrycolour, dropdown_text_color = statstextcolour,
                 dropdown_font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
                 dropdown_fg_color = framecolour, dropdown_hover_color = hovercolour)
                 
-    sessionentrychange.place(relx=0.5, rely=0.7, anchor=CENTER)
+    sessionentrychange.place(relx=0.5, rely=0.7, relheight=0.09, relwidth=0.8, anchor=CENTER)
     
     ttk.Separator(Stats_frame, orient = 'horizontal', style='background.TSeparator'
                   ).place(relx=0.5, rely=0.8, anchor=CENTER, relwidth=0.81)          #Seperator
 
 
     #Confirm Button
-    confirmbutton = ctk.CTkButton(Stats_frame, width = 155, text = "Confirm", command = Editsession,
+    confirmbutton = ctk.CTkButton(Stats_frame, text = "Confirm", command = Editsession,
                         font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"), 
                         fg_color = buttoncolour, hover_color=hovercolour, text_color=buttontextcolour)
-    confirmbutton.place(relx=0.5, rely=0.9, anchor=CENTER)
+    confirmbutton.place(relx=0.5, rely=0.9, relheight=0.1, relwidth=0.85, anchor=CENTER)
 
 def SolveStats(sessiontype): #Funtion for the Solved Statistics interface                       (SOLVED STATS MINI-INTERFACE)
     global session, sessionname, deletesessionbutton, editsessionbutton                             #Globalling the Variables
 
     #Setting the new session variables (the user has selected a new session)
-    sessionname = ses.get()
-    session = sessiontype
+    settingsfile = pd.read_csv("Users_Settings.csv")                        #Reading the settings csv file
+    
+    sessionname = settingsfile.iloc[30, 1] = ses.get()                      #Updating the current selected session
+    session = settingsfile.iloc[31, 1] = sessiontype
+
+    settingsfile.to_csv("Users_Settings.csv", index=False)
 
 
     """Functions for calculating the selected sessions statistics"""
@@ -724,7 +746,7 @@ def SolveStats(sessiontype): #Funtion for the Solved Statistics interface       
     """Creating the selected sessions mini-interface"""
 
     Stats_frame = ctk.CTkFrame(session_frame, fg_color = framecolour,  width = 180, height = 295)
-    Stats_frame.place(relx=0.857, rely=0.393, anchor=CENTER)
+    Stats_frame.place(relx=0.857, rely=0.39, relheight=0.67, relwidth=0.22, anchor=CENTER)
 
     ctk.CTkLabel(Stats_frame, text = "Total Solves",                                                #Total Solves Label
                 font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
@@ -808,11 +830,20 @@ def SolveStats(sessiontype): #Funtion for the Solved Statistics interface       
                 file.to_csv('Users_Sessions.csv', index=False)
 
                 try:
-                    sessionname = file.loc[0, "Session Name"]           #Setting the users new selected session to the default
-                    session = file.loc[0, "Session Type"]
+                    settingsfile = pd.read_csv("Users_Settings.csv")    #Setting the users new selected session to the default
+
+                    sessionname = settingsfile.iloc[30, 1] = file.loc[0, "Session Name"]
+                    session = settingsfile.iloc[31, 1] = file.loc[0, "Session Type"]
+
+                    settingsfile.to_csv("Users_Settings.csv", index=False)
+
                 except:
-                    sessionname = file.loc[1, "Session Name"]           #Setting the users new selected session to the default
-                    session = file.loc[1, "Session Type"]
+                    settingsfile = pd.read_csv("Users_Settings.csv")    #Setting the users new selected session to the default
+
+                    sessionname = settingsfile.iloc[30, 1] = file.loc[1, "Session Name"]
+                    session = settingsfile.iloc[31, 1] = file.loc[1, "Session Type"]
+
+                    settingsfile.to_csv("Users_Settings.csv", index=False)
 
                 SessionsGUI()                                           #Resetting the sessions interface
 
@@ -822,30 +853,35 @@ def SolveStats(sessiontype): #Funtion for the Solved Statistics interface       
     """Creating the edit selected session mini-interface"""
 
     Editsolve_frame = ctk.CTkFrame(session_frame, fg_color = framecolour,  width = 180, height = 85)            #Creating the frame
-    Editsolve_frame.place(relx=0.857, rely=0.845, anchor=CENTER)                                    
+    Editsolve_frame.place(relx=0.857, rely=0.85, relheight=0.2, relwidth=0.22, anchor=CENTER)                                    
 
-    editsessionbutton = ctk.CTkButton(Editsolve_frame, text_color = buttontextcolour, width = 155,              #Creating the "edit" button
+    editsessionbutton = ctk.CTkButton(Editsolve_frame, text_color = buttontextcolour,                           #Creating the "edit" button
                                       font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"), 
                                       fg_color = buttoncolour, hover_color=hovercolour,
                                       text = "Edit", command = lambda: EditsessionGUI())    
-    editsessionbutton.place(relx=0.5, rely=0.3, anchor=CENTER)
+    editsessionbutton.place(relx=0.5, rely=0.3, relheight=0.3, relwidth=0.85, anchor=CENTER)
 
-    deletesessionbutton = ctk.CTkButton(Editsolve_frame, text_color = buttontextcolour, width = 155,            #Creating the "Delete button
+    deletesessionbutton = ctk.CTkButton(Editsolve_frame, text_color = buttontextcolour,                         #Creating the "Delete button
                                         font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"), 
                                         fg_color = buttoncolour, hover_color=hovercolour,
                                         text = "Delete", command = lambda: Deletesession(sessionname))
-    deletesessionbutton.place(relx=0.5, rely=0.7, anchor=CENTER)   
+    deletesessionbutton.place(relx=0.5, rely=0.7, relheight=0.3, relwidth=0.85, anchor=CENTER)   
 
 def SessionsGUI():           #Function for Sessions interface                                   (SESSIONS INTERFACE)
     global nameentry, chosensession, ses, styl                                      #Global the variables 
 
     reset()                                                                         #Removing the previous Frames
 
-    session_frame.grid(column = 1, row = 0, rowspan = 40)                           #Creating/Resetting the sessions interface
+    session_frame.place(relx = 0.55, rely = 0.5, relheight=1, relwidth=0.9, anchor=CENTER)
 
     Sessionlist_frame = ctk.CTkScrollableFrame(session_frame, fg_color = framecolour, height=380, width=580,
                                                scrollbar_button_color = navcolour, scrollbar_button_hover_color = backgroundcolour)
-    Sessionlist_frame.place(relx=0.39, rely=0.5, anchor=CENTER)
+    Sessionlist_frame.place(relx=0.39, rely=0.5, relheight=0.9, relwidth=0.69, anchor=CENTER)
+
+
+    Sessionlist_frame.grid_columnconfigure(0, weight=1)
+    Sessionlist_frame.grid_columnconfigure(1, weight=1)
+    Sessionlist_frame.grid_columnconfigure(2, weight=1)
 
     def TotalSessions():           #Calculate the total solves in the session
         with open("Users_Sessions.csv") as csvfile:
@@ -862,7 +898,7 @@ def SessionsGUI():           #Function for Sessions interface                   
     ctk.CTkLabel(Sessionlist_frame,  text="Sessions",
                 font = ctk.CTkFont(family = "Calibri", size=20, weight="bold"),
                 fg_color = framecolour, text_color=titletextcolour
-                ).grid(row = 0, column = 0, columnspan = 3, pady = (25,10), padx=(35,0))
+                ).grid(row = 0, column = 0, columnspan = 3, pady = (25,10))
 
     styl = ttk.Style()
     styl.configure('background.TSeparator', background=framecolour)
@@ -871,27 +907,27 @@ def SessionsGUI():           #Function for Sessions interface                   
 
         if sessionnum %2 == 0:                  #This function makes the program print the sessions in a alternating pattern e.g; session, line, session, line
             #RadioButton for the Session name
-            Radiobutton(Sessionlist_frame, variable = ses, width = 35, indicator = 0, borderwidth=0, height=2, activebackground= framecolour,
+            Radiobutton(Sessionlist_frame, variable = ses, indicator = 0, borderwidth=0, height=2, activebackground= framecolour,
                                bg = framecolour, foreground = statstextcolour, font = ctk.CTkFont(family = "Calibri", size=22, weight="bold"),
                         value = (file.loc[((sessionnum)/2), "Session Name"]), text = (file.loc[((sessionnum)/2), "Session Name"]), 
                         command = lambda s=(file.loc[((sessionnum)/2), "Session Type"]): SolveStats(s), selectcolor=framecolour
-                        ).grid(column = 0, row = sessionnum+1, pady = 10, padx=(55,0))
+                        ).grid(column = 0, row = sessionnum+1, pady = 10)
             
             #RadioButton for the Session type
-            Radiobutton(Sessionlist_frame, variable = ses, width = 20, indicator = 0, borderwidth=0, height=2, activebackground= framecolour,
+            Radiobutton(Sessionlist_frame, variable = sessionname, indicator = 0, borderwidth=0, height=2, activebackground= framecolour,
                                bg = framecolour, foreground = sessiontextcolour, font = ctk.CTkFont(family = "Calibri", size=22, weight="bold"),
                         value = (file.loc[((sessionnum)/2), "Session Name"]), text = ("["+file.loc[((sessionnum)/2), "Session Type"]+"]"), 
                         command = lambda s=(file.loc[((sessionnum)/2), "Session Type"]): SolveStats(s), selectcolor=framecolour
                         ).grid(column = 1, row = sessionnum+1, pady = 10)
             
             #RadioButton for the actual button itself
-            ctk.CTkRadioButton(Sessionlist_frame, variable = ses, width = 10, hover_color = radiohovercolour, border_color = radiocolour,
+            ctk.CTkRadioButton(Sessionlist_frame, variable = ses, hover_color = radiohovercolour, border_color = radiocolour,
                         value = (file.loc[((sessionnum)/2), "Session Name"]), text = "", fg_color = radiocolour,
                         command = lambda s=(file.loc[((sessionnum)/2), "Session Type"]): SolveStats(s)
                         ).grid(column = 2, row = sessionnum+1, pady = 10)
             
         else:                    #Place a seperator (line) after every other session placed (more minimal look)
-            ttk.Separator(Sessionlist_frame, orient = 'horizontal', style='background.TSeparator').grid(column = 0, row = sessionnum+1, ipadx = 350, columnspan = 3, padx=(70,0))
+            ttk.Separator(Sessionlist_frame, orient = 'horizontal', style='background.TSeparator').grid(column = 0, row = sessionnum+1, sticky="ew", padx=50, columnspan = 3)
 
 
     """Creating a function which allows the user to add new sessions"""
@@ -949,7 +985,7 @@ def SessionsGUI():           #Function for Sessions interface                   
                              font = ctk.CTkFont(family = "Calibri", size=13, weight="bold"), placeholder_text = 'Enter New Session Name'
                              ,justify="center", border_color=entrycolour, text_color=statstextcolour, placeholder_text_color = statstextcolour)
     
-    nameentry.grid(column = 0, row = sessionnum+2, pady = 20, padx=(35,0))
+    nameentry.grid(column = 0, row = sessionnum+2, pady = 20, padx = (40, 4))
 
     nameentry.bind("<Button-1>", click)                                                     #Make the entry box detect in the user has clicked on it 
     nameentry.bind("<Leave>", entryleave)                                                   #Make the entry box detect if the user has left it
@@ -969,7 +1005,7 @@ def SessionsGUI():           #Function for Sessions interface                   
                 dropdown_font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
                 dropdown_fg_color = framecolour, dropdown_hover_color = hovercolour)
 
-    sessionentry.grid(column = 1, row = sessionnum+2, pady = 20)
+    sessionentry.grid(column = 1, row = sessionnum+2, pady = 20, padx = 4)
 
     Sessionlist_frame.bind("<Motion>", sessionleave)                    #Make the combo box detect in the user has left it 
     sessionentry.bind('<<ComboboxSelected>>', sessionleave)             #Make the combo box detect in the user selected something
@@ -978,7 +1014,7 @@ def SessionsGUI():           #Function for Sessions interface                   
     ses2 = tk.StringVar()
     ses2.set("placeholder")
 
-    ctk.CTkRadioButton(Sessionlist_frame, variable = ses2, width = 10, hover_color = radiohovercolour, 
+    ctk.CTkRadioButton(Sessionlist_frame, variable = ses2, hover_color = radiohovercolour, 
                         border_color = radiocolour, fg_color = radiocolour,text = "", 
                         command = Addsession, corner_radius = 10, value = "placeholder"
                         ).grid(column = 2, row = sessionnum+2, pady = 10)
@@ -993,7 +1029,7 @@ def EditSolve(solveid):      #Editing the solves interface                      
     
     #Creating the Solve States Frame
     SolvedStats_frame = ctk.CTkFrame(times_frame, fg_color = framecolour,  width = 400, height = 100)
-    SolvedStats_frame.place(relx=0.47, rely=0.81, anchor=CENTER)
+    SolvedStats_frame.place(relx=0.47, rely=0.81, relheight=0.21, relwidth=0.95, anchor=CENTER)
 
     #Placing the filler Labels (the solved time and the scramble of that solve)
     timelabel = ctk.CTkLabel(SolvedStats_frame, text = "", fg_color = framecolour, text_color=statstextcolour,
@@ -1010,17 +1046,17 @@ def EditSolve(solveid):      #Editing the solves interface                      
     addbutton = ctk.CTkButton(SolvedStats_frame, width = 100, text_color = buttontextcolour, 
                                  font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"), 
                                  fg_color = buttoncolour, text = "+2", hover_color=hovercolour)
-    addbutton.place(relx=0.2, rely=0.68, anchor=CENTER)
+    addbutton.place(relx=0.2, rely=0.68, relheight=0.3, relwidth=0.25, anchor=CENTER)
 
     dnfbutton = ctk.CTkButton(SolvedStats_frame, width = 100, text_color = buttontextcolour, 
                                 font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"), 
                                 fg_color = buttoncolour, text = "DNF", hover_color=hovercolour)
-    dnfbutton.place(relx=0.5, rely=0.68, anchor=CENTER)
+    dnfbutton.place(relx=0.5, rely=0.68, relheight=0.3, relwidth=0.25, anchor=CENTER)
 
     deletebutton = ctk.CTkButton(SolvedStats_frame, width = 100, text_color = buttontextcolour, 
                                 font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"), 
                                 fg_color = buttoncolour, text = "Delete", hover_color=hovercolour)
-    deletebutton.place(relx=0.8, rely=0.68, anchor=CENTER)
+    deletebutton.place(relx=0.8, rely=0.68, relheight=0.3, relwidth=0.25, anchor=CENTER)
 
 
     """All the Command Functions for the buttons"""
@@ -1120,12 +1156,17 @@ def EditSolve(solveid):      #Editing the solves interface                      
 
 def SolvedTimes():           #Function for Solved Times interface                               (SOLVED TIMES INTERFACE)
 
-    times_frame.grid(column = 2, row = 0, rowspan = 40)                                         #Creating/Resetting the Frames
+    times_frame.place(relx = 0.775, rely = 0.5, relheight=1, relwidth=0.45, anchor=CENTER)      #Creating/Resetting the Frames
 
-    SolvedTimes_frame = ctk.CTkScrollableFrame(times_frame, fg_color = framecolour, width = 380, height = 260, 
+    SolvedTimes_frame = ctk.CTkScrollableFrame(times_frame, fg_color = framecolour, 
                                                scrollbar_button_color = navcolour, scrollbar_button_hover_color = backgroundcolour)
     
-    SolvedTimes_frame.place(relx=0.47, rely=0.37, anchor=CENTER)                                #Creating a SolvedTimes frame
+    SolvedTimes_frame.place(relx=0.47, rely=0.36, relheight=0.6, relwidth=0.95, anchor=CENTER)  #Creating a SolvedTimes frame
+
+    SolvedTimes_frame.grid_columnconfigure(0, weight=1)                                         #Making the gridding adjust to frame size
+    SolvedTimes_frame.grid_columnconfigure(1, weight=1)
+    SolvedTimes_frame.grid_columnconfigure(2, weight=1)
+    SolvedTimes_frame.grid_columnconfigure(3, weight=1)
             
     alltimes = ((read_csv("Solved Times/"+sessionname+".csv"))['Solved Time'].tolist())         #Listing all the solved times in the session
     alltimes.reverse()                          #Reversing the list order so that the lastest solved times will appear first
@@ -1152,46 +1193,46 @@ def SolvedTimes():           #Function for Solved Times interface               
     """Printing the all the Solved Times into the scrollable frame"""
 
     rownum = 0                                                                                  
-    ctk.CTkLabel(SolvedTimes_frame,  text="     Times", font = ctk.CTkFont(family = "Calibri", size=20, weight="bold"),     #Title
-                fg_color = framecolour, text_color=titletextcolour).grid(row = 0, column = 1, columnspan=4, pady = 10)
+    ctk.CTkLabel(SolvedTimes_frame,  text="Times", font = ctk.CTkFont(family = "Calibri", size=20, weight="bold"),     #Title
+                fg_color = framecolour, text_color=titletextcolour).grid(row = 0, column = 0, columnspan=4, pady = 10)
 
     for solve in range(len(alltimes)):                                          #Making a loop that loops for the number of total solves
         index = ((TotalSolves())-(solve+1))
         if (solve)%4 == 0:
             ctk.CTkButton(SolvedTimes_frame,  text=alltimes[solve], command = lambda s=solve: EditSolve(s), 
-                          width = 75, height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
+                          height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
                           font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
-                ) .grid(row = rownum+1, column = 1, padx = (24,4), pady = 4)    #Gridding Left most Button
+                ) .grid(row = rownum+1, column = 0, padx = (25, 4), pady = 4)   #Gridding Left most Button
 
-            if file.loc[index, 'Type'] == "DNF": label("DNF", 1)                #Checking the type of solve
-            elif file.loc[index, 'Type'] == "+2": label("+2", 1)
+            if file.loc[index, 'Type'] == "DNF": label("DNF", 0)                #Checking the type of solve
+            elif file.loc[index, 'Type'] == "+2": label("+2", 0)
 
         if (solve-1)%4 == 0:
             ctk.CTkButton(SolvedTimes_frame,  text=alltimes[solve], command = lambda s=solve: EditSolve(s), 
-                          width = 75, height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
+                          height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
                           font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
-                ) .grid(row = rownum+1, column = 2, padx = 4)                   #Gridding Middle Left Button
+                ) .grid(row = rownum+1, column = 1, padx = 4)                   #Gridding Middle Left Button
+            
+            if file.loc[index, 'Type'] == "DNF": label("DNF", 1)                #Checking the type of solve
+            elif file.loc[index, 'Type'] == "+2": label("+2", 1)
+
+        if (solve-2)%4 == 0:
+            ctk.CTkButton(SolvedTimes_frame,  text=alltimes[solve], command = lambda s=solve: EditSolve(s), 
+                          height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
+                          font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
+                ) .grid(row = rownum+1, column = 2, padx = 4)                   #Gridding Middle Right Button
             
             if file.loc[index, 'Type'] == "DNF": label("DNF", 2)                #Checking the type of solve
             elif file.loc[index, 'Type'] == "+2": label("+2", 2)
 
-        if (solve-2)%4 == 0:
-            ctk.CTkButton(SolvedTimes_frame,  text=alltimes[solve], command = lambda s=solve: EditSolve(s), 
-                          width = 75, height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
-                          font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
-                ) .grid(row = rownum+1, column = 3, padx = 4)                   #Gridding Middle Right Button
-            
-            if file.loc[index, 'Type'] == "DNF": label("DNF", 3)                #Checking the type of solve
-            elif file.loc[index, 'Type'] == "+2": label("+2", 3)
-
         if (solve-3)%4 == 0:
             ctk.CTkButton(SolvedTimes_frame,  text=alltimes[solve], command = lambda s=solve: EditSolve(s), 
-                          width = 75, height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
+                          height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
                           font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
-                ) .grid(row = rownum+1, column = 4, padx = 4)                   #Gridding Right most Button
+                ) .grid(row = rownum+1, column = 3, padx = (4, 25))             #Gridding Right most Button
             
-            if file.loc[index, 'Type'] == "DNF": label("DNF", 4)
-            elif file.loc[index, 'Type'] == "+2": label("+2", 4)                #Checking the type of solve
+            if file.loc[index, 'Type'] == "DNF": label("DNF", 3)
+            elif file.loc[index, 'Type'] == "+2": label("+2", 3)                #Checking the type of solve
 
             rownum += 1         #Gridding the next Solves Times buttons in the next row down
 
@@ -1212,7 +1253,7 @@ def Graph():                 #Draw the Line Graph of all the times
     figure_plot.patch.set_facecolor(graphcolour)
 
     line_graph = FigureCanvasTkAgg(figure, master = graph_frame)                                #Creating the Graph
-    line_graph.get_tk_widget().place(relx=0.5, rely=0.57, anchor=CENTER)
+    line_graph.get_tk_widget().place(relx=0.5, rely=0.57, relheight=0.8, relwidth=1, anchor=CENTER)
 
     dataframe = dataframe[["Time", "Solve Number"]].groupby("Solve Number").sum()               #Telling the graph how to graph the plots
     dataframe.plot(kind = 'line', legend = True, ax = figure_plot,                              #Making it into a Line Graph
@@ -1246,21 +1287,21 @@ def StatsGUI():              #Function for statistics interface                 
     reset()              #Removing the previous Frame
 
     """Creating the statistics and solved times interface"""
-    stats_frame.grid(column = 1, row = 0, rowspan = 40)                                 #Creating/Resetting the Frames
+    stats_frame.place(relx = 0.325, rely = 0.5, relheight=1, relwidth=0.45, anchor=CENTER)           #Creating/Resetting the Frames
 
     #Creating the new subframes
-    sta1_frame = ctk.CTkFrame(stats_frame, fg_color = framecolour, height = 120, width= 180)
-    sta2_frame = ctk.CTkFrame(stats_frame, fg_color = framecolour, height = 120, width= 180)
+    sta1_frame = ctk.CTkFrame(stats_frame, fg_color = framecolour)
+    sta2_frame = ctk.CTkFrame(stats_frame, fg_color = framecolour)
 
-    graph_frame = ctk.CTkFrame(stats_frame, fg_color = framecolour, height = 210, width= 370)
-    graph_frame.place(relx=0.5, rely=0.69, anchor=CENTER)
+    graph_frame = ctk.CTkFrame(stats_frame, fg_color = framecolour)
+    graph_frame.place(relx=0.5, rely=0.69, relheight=0.45, relwidth=0.86, anchor=CENTER)
 
     #Title of the session statistics label
     ctk.CTkLabel(stats_frame, text = sessionname+" Statistics", fg_color = backgroundcolour, text_color=textcolour,
-            font = ctk.CTkFont(family = "Calibri", size=22, weight="bold")).place(relx=0.5, rely=0.1, anchor=CENTER)
+            font = ctk.CTkFont(family = "Calibri", size=22, weight="bold")).place(relx=0.5, rely=0.09, anchor=CENTER)
     
-    sta1_frame.place(relx=0.28, rely=0.3, anchor=CENTER)                                #Placing the subframes
-    sta2_frame.place(relx=0.72, rely=0.3, anchor=CENTER)
+    sta1_frame.place(relx=0.28, rely=0.3, relheight=0.28, relwidth=0.42, anchor=CENTER)              #Placing the subframes
+    sta2_frame.place(relx=0.72, rely=0.3, relheight=0.28, relwidth=0.42, anchor=CENTER)
 
     """Labels for subframe 1"""
     ctk.CTkLabel(sta1_frame, text = "Total Solves", 
@@ -1466,7 +1507,7 @@ def TimerGUI():              #Function for timer interface                      
     reset()         #Removing the previous Frame
 
     #Creating the timer interface
-    timer_frame.grid(column = 1, row = 0, rowspan = 40)         #Creating/Resetting the Frame
+    timer_frame.place(relx = 0.55, rely = 0.5, relheight=1, relwidth=0.9, anchor=CENTER)
     stopwatch_frame = StopWatch(timer_frame)                    #Creating the timer frame
 
     timeText.place(relx=0.5, rely=0.45, anchor=CENTER)          #Placing the timer
@@ -1684,7 +1725,7 @@ def navigation_GUI():        #Function for side navigation interface            
     global timer_img, stats_img, sessions_img, settings_img, tab                #Icons
 
     #Creating the side navigation interface
-    nav_frame.grid(column = 0, row = 0, rowspan = 40, sticky = N+W)
+    nav_frame.place(relx = 0.05, rely = 0.5, relheight=1, relwidth=0.1, anchor=CENTER)
     nav_frame.grid_propagate(0)                                                 #Making it so that the frame size doesnt change with gridding
 
     #Creating the Images/Icons
@@ -1755,23 +1796,36 @@ def main():                  #Main function for all variables
     radiohovercolour = file.iloc[24, 1]
     timestextcolour = file.iloc[25, 1]
 
-    file = pd.read_csv("Users_Sessions.csv")                    #User Sessions
-    sessionname = file.loc[0, "Session Name"]
-    session = file.loc[0, "Session Type"]
+    sessionname = file.iloc[30, 1]
+    session = file.iloc[31, 1]
 
     """Tkinter Window and Frames"""
     main_window = ctk.CTk(fg_color = backgroundcolour)
-    main_window.geometry("940x450+200+50")
+
+    width = 940                                         # Width 
+    height = 450                                        # Height
+
+    screen_width = main_window.winfo_screenwidth()      # Width of the screen
+    screen_height = main_window.winfo_screenheight()    # Height of the screen
+
+    x = (screen_width/2) - (width/2)                    # Calculate Starting X and Y coordinates for Window
+    y = (screen_height/2) - (height/2)
+
+    main_window.geometry('%dx%d+%d+%d' % (width, height, x, y))
+
+    main_window.minsize(740, 380)
+    #main_window.maxsize(1300, 700)
+    #main_window.resizable(False, False)
+
     main_window.title("Cube Timer Assessment - Leo Cao")
-    main_window.resizable(False, False)
     
     #Creating all the interface frames
-    nav_frame = Frame(main_window, background = navcolour, height = 675, width = 120)
-    timer_frame = ctk.CTkFrame(main_window, fg_color = backgroundcolour, width = 860, height = 450)
-    stats_frame = ctk.CTkFrame(main_window, fg_color = backgroundcolour, width = 430, height = 450)
-    times_frame = ctk.CTkFrame(main_window, fg_color = backgroundcolour, width = 430, height = 450)
-    session_frame = ctk.CTkFrame(main_window, fg_color = backgroundcolour, width = 860, height = 450)
-    settings_frame = ctk.CTkFrame(main_window, fg_color = backgroundcolour, width = 860, height = 450)
+    nav_frame = Frame(main_window, background = navcolour)
+    timer_frame = ctk.CTkFrame(main_window, fg_color = backgroundcolour)
+    stats_frame = ctk.CTkFrame(main_window, fg_color = backgroundcolour)
+    times_frame = ctk.CTkFrame(main_window, fg_color = backgroundcolour)
+    session_frame = ctk.CTkFrame(main_window, fg_color = backgroundcolour)
+    settings_frame = ctk.CTkFrame(main_window, fg_color = backgroundcolour)
 
     #Calling the Interfaces
     navigation_GUI()
@@ -1780,3 +1834,4 @@ def main():                  #Main function for all variables
     main_window.mainloop()
 
 main()
+
