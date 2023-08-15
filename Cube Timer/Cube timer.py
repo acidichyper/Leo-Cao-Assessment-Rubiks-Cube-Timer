@@ -163,7 +163,8 @@ def SettingsGUI():           #Function for settings interface                   
             #Screating a switch for the user to toggle showing scramble or not
             def switch_event():                 #Function to change state of the average showing or not
                 global display_avg
-                display_avg = switch_var.get()
+                display_avg = settingsfile.iloc[3, 1] = switch_var.get()
+                settingsfile.to_csv("Users_Settings.csv", index=False)                      #Changing the file variables
 
             switch_var = ctk.StringVar(value=str(display_avg))                              #String variable for the switch
 
@@ -544,7 +545,7 @@ def SettingsGUI():           #Function for settings interface                   
                     ctk.CTkButton(themes_frame, hover = False, height=45, border_spacing = 0, command = lambda s=num: changetheme(s),
                             fg_color = file.loc[index, variables[i]], text = file.loc[index, "Name"], corner_radius=5,
                             text_color = file.loc[index, "TextColour"], font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
-                            ).grid(row = index+1, column = i, padx = (40,3))
+                            ).grid(row = index+1, column = i, padx = (40,1))
                 elif i == 5: 
                     ctk.CTkButton(themes_frame, hover = False, height=45, border_spacing = 0, command = lambda s=num: changetheme(s),
                             fg_color = file.loc[index, variables[i]], text = "", corner_radius=4
@@ -1548,8 +1549,6 @@ def TimerGUI():              #Function for timer interface                      
                         fg_color = backgroundcolour, font = ctk.CTkFont(family = "Calibri", size=20, weight="bold"))
         Avg2Label.place(relx=0.5, rely=0.70, anchor=CENTER)
 
-    elif display_avg == "False": pass                           #If the user doesnt allow it, ignore
-
 
     """Starting the timer function"""
 
@@ -1561,8 +1560,9 @@ def TimerGUI():              #Function for timer interface                      
             global Timer
             stopwatch_frame.Start()
             ScrambleLabel.configure(text = "")      #Hiding the labels for a more clean aestetic
-            Avg1Label.configure(text = "")
-            Avg2Label.configure(text = "")
+            if display_avg == "True":
+                Avg1Label.configure(text = "")
+                Avg2Label.configure(text = "")
             SessionLabel.configure(text = "")
             comparetimelabel.configure(text = "")
 
@@ -1604,8 +1604,10 @@ def TimerGUI():              #Function for timer interface                      
                 if lasttime[-1] <= lasttime[-2]: comparetimelabel.configure(text = "("+str(round(difference, 2))+")")
             except: pass                                                                    #If there is an error then pass
 
-            Avg1Label.configure(text = ("AO"+str(avg1)+": "+ str(AverageCALC(avg1))))       #Updating the Averages
-            Avg2Label.configure(text = ("AO"+str(avg2)+": "+ str(AverageCALC(avg2))))
+            if display_avg == "True":                                                       #Placing the two average Labels If user selected it
+                Avg1Label.configure(text = ("AO"+str(avg1)+": "+ str(AverageCALC(avg1))))   #Updating the Averages
+                Avg2Label.configure(text = ("AO"+str(avg2)+": "+ str(AverageCALC(avg2))))
+
             SessionLabel.configure(text = sessionname)                                      #Show the session name again
 
             main_window.unbind("<KeyRelease-space>")                                        #Make the code not check if spacebar is pressed
