@@ -1,6 +1,6 @@
 Name,BackgroundColour,NavColour,FrameColour,TextColour,StatsTextColour,TitleTextColour,SessionTextColour,ButtonColour,ButtonTextColour,HoverColour,RadioColour,EntryColour,InputColour,GraphLineColour,LabelColour,LabelTextColour,GraphColour,ValidityText,RadioHover,TimesTextColour
 
-Default,#dededc,#c7c7c7,#ffffff,black,black,black,black,#e0e0e0,black,#f0f0ee,black,black,#7b7c79,black,white,black,#ffffff,black,#7b7c79,black
+Default,#dededc,#c7c7c7,#ffffff,black,black,black,black,#e0e0e0,black,#f0f0ee,black,black,#7b7c79,black,white,black,#ffffff,red,#7b7c79,black
 Grimace,#5e548e,#4c4473,#c6bfc9,white,black,black,black,#7d67bf,white,#8b7bbd,#4c4473,#4c4473,#231942,#231942,white,black,white,#231942,#8b7bbd,white
 Aquamarine,#50BFAB,#3A8A7B,white,white,black,black,black,#75bdb0,white,#93c9bf,#3A8A7B,#3A8A7B,#3A8A7B,#3A8A7B,white,black,white,#3A8A7B,#93c9bf,white
 Matte Black,#232629,#1d1e21,#2c2e30,#ced4da,#ced4da,#ced4da,#ced4da,#232629,white,#3a4047,#ced4da,#17181a,#17181a,white,white,black,#2c2e30,white,#3a4047,white

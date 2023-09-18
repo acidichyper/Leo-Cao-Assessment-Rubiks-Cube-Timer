@@ -29,7 +29,7 @@ def reset():                 #Function to clear and reset the frames (Tabs)
     def resetting(frame):                       #Function to delete the frame
         for widget in frame.winfo_children():   #Clearing the Frame
             widget.destroy()
-        frame.place_forget()                     #Deleting the Frame
+        frame.place_forget()                    #Deleting the Frame
 
     resetting(timer_frame)                      #Resetting every frame
     resetting(stats_frame)
@@ -184,6 +184,7 @@ def SettingsGUI():           #Function for settings interface                   
                 try: 
                     avg1 = settingsfile.iloc[4, 1] = int(value)                             #Changing the variables
                     settingsfile.to_csv("Users_Settings.csv", index=False)                  #Changing the file variables
+                    validitylabel.configure(text = "")
 
                 except: validitylabel.configure(text = "Please Input a Integer (Number) for the averages")
        
@@ -214,6 +215,7 @@ def SettingsGUI():           #Function for settings interface                   
                 try: 
                     avg2 = settingsfile.iloc[5, 1] = int(value)                             #Changing the variables
                     settingsfile.to_csv("Users_Settings.csv", index=False)                  #Changing the file variables
+                    validitylabel.configure(text = "")
 
                 except: validitylabel.configure(text = "Please Input a Integer (Number) for the averages")
 
@@ -691,12 +693,12 @@ def EditsessionGUI():        #Funtion for the Edit Sessions interface           
                 fg_color = framecolour, text_color=statstextcolour
         ).place(relx=0.5, rely=0.6, anchor=CENTER)                      #Change Session Type Label
 
-    sessiontypes = ["3x3", "2x2", "4x4"]                                #Types of items in the combobox
+    SESSIONTYPES = ["3x3", "2x2", "4x4"]                                #Types of items in the combobox
     chosensessiontype = StringVar()                                     #Creating a StringVar for the ComboBox
 
     #Creating the ComboBox
     sessionentrychange = ctk.CTkComboBox(Stats_frame, variable = chosensessiontype,
-                values = sessiontypes, font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
+                values = SESSIONTYPES, font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
                 fg_color = framecolour, text_color=statstextcolour, state = "readonly", justify="center", 
                 border_color = entrycolour, button_color = entrycolour, dropdown_text_color = statstextcolour,
                 dropdown_font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
@@ -749,48 +751,22 @@ def SolveStats(sessiontype): #Funtion for the Solved Statistics interface       
     Stats_frame = ctk.CTkFrame(session_frame, fg_color = framecolour,  width = 180, height = 295)
     Stats_frame.place(relx=0.857, rely=0.39, relheight=0.67, relwidth=0.22, anchor=CENTER)
 
-    ctk.CTkLabel(Stats_frame, text = "Total Solves",                                                #Total Solves Label
-                font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
-                fg_color = framecolour, text_color=statstextcolour
-        ).place(relx=0.15, rely=0.1, anchor=W)
-    
-    solvecount = ctk.CTkLabel(Stats_frame, text = (TotalSolves()),                                  #Total Solves
-                    font = ctk.CTkFont(family = "Calibri", size=15),
-                    fg_color = framecolour, text_color=statstextcolour)
-    solvecount.place(relx=0.3, rely=0.17, anchor=W)
+    def creatinglabels(text, fontweight, x, y):                                                     #Function for creating the stats labels
+        ctk.CTkLabel(Stats_frame, text = text,font = ctk.CTkFont(family = "Calibri", size=15, weight=fontweight),
+            fg_color = framecolour, text_color=statstextcolour).place(relx=x, rely=y, anchor=W)
 
-    ctk.CTkLabel(Stats_frame, text = "Session Mean",                                                #Session Mean Label
-                 font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
-                fg_color = framecolour, text_color=statstextcolour
-        ).place(relx=0.15, rely=0.3, anchor=W)
-
-    sessionavg = ctk.CTkLabel(Stats_frame, text = (MeanCALC()),                                     #Session Mean
-                              font = ctk.CTkFont(family = "Calibri", size=15),
-                    fg_color = framecolour, text_color=statstextcolour)
-    sessionavg.place(relx=0.3, rely=0.37, anchor=W)
+    creatinglabels("Total Solves", "bold", 0.15, 0.1)                                               #Total Solves Label
+    creatinglabels(TotalSolves(), "normal", 0.3, 0.17)                                              #Total Solves
+    creatinglabels("Session Mean", "bold", 0.15, 0.3)                                               #Session Mean Label
+    creatinglabels(MeanCALC(), "normal", 0.3, 0.37)                                                 #Session Mean
 
     ttk.Separator(Stats_frame, orient = 'horizontal', style='background.TSeparator'                 #Seperator
                   ).place(relx=0.5, rely=0.485, anchor=CENTER, relwidth=0.81)
 
-    ctk.CTkLabel(Stats_frame, text = "Best Solve",                                                  #Fastest Solve Label
-                font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
-                fg_color = framecolour, text_color=statstextcolour
-        ).place(relx=0.15, rely=0.6, anchor=W)
-    
-    fastest = ctk.CTkLabel(Stats_frame, text = (FastestSolve()),                                    #Fastest Solve
-                font = ctk.CTkFont(family = "Calibri", size=15),
-                fg_color = framecolour, text_color=statstextcolour)
-    fastest.place(relx=0.3, rely=0.67, anchor=W)
-
-    ctk.CTkLabel(Stats_frame, text = "Current AO5",                                                 #Current Average of 5 Label
-                 font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
-                fg_color = framecolour, text_color=statstextcolour
-        ).place(relx=0.15, rely=0.8, anchor=W)
-
-    avg = ctk.CTkLabel(Stats_frame, text = (AverageCALC(avg1)),                                     #Current Average of 5
-                    font = ctk.CTkFont(family = "Calibri", size=15),
-                    fg_color = framecolour, text_color=statstextcolour)
-    avg.place(relx=0.3, rely=0.87, anchor=W)
+    creatinglabels("Best Solve", "bold", 0.15, 0.6)                                                 #Best Solve Label
+    creatinglabels(FastestSolve(), "normal", 0.3, 0.67)                                             #Best Solve
+    creatinglabels("Current AO"+str(avg1), "bold", 0.15, 0.8)                                       #Current Average Label
+    creatinglabels(AverageCALC(avg1), "normal", 0.3, 0.87)                                          #Current Average Mean
 
 
     """Function to delete the users selected session"""
@@ -995,12 +971,12 @@ def SessionsGUI():           #Function for Sessions interface                   
     def sessionleave(event):                                                                #When the user's curser leaves the combo box
         session_frame.focus()                                                               #Focus back on the window
 
-    sessiontypes = ["3x3", "2x2", "4x4"]                                                    #Types of items in the combobox
+    SESSIONTYPES = ["3x3", "2x2", "4x4"]                                                    #Types of items in the combobox
     chosensession = ctk.StringVar()                                                         #Creating a StringVar for the ComboBox
 
     #Creating the ComboBox
     sessionentry = ctk.CTkComboBox(Sessionlist_frame, variable = chosensession, width = 150, height = 30,
-                values = sessiontypes, font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
+                values = SESSIONTYPES, font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
                 fg_color = framecolour, text_color=statstextcolour, state = "readonly", justify="center",
                 border_color = entrycolour,  button_color = entrycolour, dropdown_text_color = statstextcolour,
                 dropdown_font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
@@ -1176,13 +1152,18 @@ def SolvedTimes():           #Function for Solved Times interface               
     """Important Functions"""
 
     def label(text, col):                       #Function for the "+2", "dnf" labels
-                
-        frame = ctk.CTkFrame(SolvedTimes_frame, width = 20, height= 20, fg_color=labelcolour, bg_color=buttoncolour)
-        frame.grid(row = rownum+1, column = col, sticky = NE, pady=10, padx = 10)
 
-        ctk.CTkLabel(frame, text = text, fg_color=labelcolour, text_color = labeltextcolour,    #Making the Label
-                     width=15, height=15, font = ctk.CTkFont(family = "Calibri", size=9, weight="bold")
-                        ).place(relx=0.5, rely=0.5, anchor=CENTER)
+        def labelcreate(text, col, pad):        #Functions for creating the Label
+            frame = ctk.CTkFrame(SolvedTimes_frame, width = 20, height= 20, fg_color=labelcolour, bg_color=buttoncolour)
+            frame.grid(row = rownum+1, column = col, sticky = NE, pady=10, padx = pad)
+
+            ctk.CTkLabel(frame, text = text, fg_color=labelcolour, text_color = labeltextcolour,
+                        width=15, height=15, font = ctk.CTkFont(family = "Calibri", size=9, weight="bold")
+                            ).place(relx=0.5, rely=0.5, anchor=CENTER)
+
+        if col == 3: labelcreate(text, col, (10,32))
+        else: labelcreate(text, col, 10)
+
                 
     file = pd.read_csv("Solved Times/"+sessionname+".csv")                                      #Reading the chosen session fil
 
@@ -1193,49 +1174,31 @@ def SolvedTimes():           #Function for Solved Times interface               
 
     """Printing the all the Solved Times into the scrollable frame"""
 
-    rownum = 0                                                                                  
-    ctk.CTkLabel(SolvedTimes_frame,  text="Times", font = ctk.CTkFont(family = "Calibri", size=20, weight="bold"),     #Title
+    global rownum
+    rownum = 0
+    
+    ctk.CTkLabel(SolvedTimes_frame,  text="Times", font = ctk.CTkFont(family = "Calibri", size=20, weight="bold"),
                 fg_color = framecolour, text_color=titletextcolour).grid(row = 0, column = 0, columnspan=4, pady = 10)
+    
+    def creatingbuttons(col, padleft, padright):
+        global rownum
 
-    for solve in range(len(alltimes)):                                          #Making a loop that loops for the number of total solves
+        ctk.CTkButton(SolvedTimes_frame,  text=alltimes[solve], command = lambda s=solve: EditSolve(s), 
+                        height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
+                        font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
+            ) .grid(row = rownum+1, column = col, padx = (padleft, padright), pady = 4)         #Creating the Buttons
+
+        if file.loc[index, 'Type'] == "DNF": label("DNF", col)                                  #Checking the type of solve
+        elif file.loc[index, 'Type'] == "+2": label("+2", col)
+        if col == 3: rownum += 1                                                                #Gridding the next Solves Times buttons in the next row down
+
+    for solve in range(len(alltimes)):                                      #Making a loop that loops for the number of total solves
         index = ((TotalSolves())-(solve+1))
-        if (solve)%4 == 0:
-            ctk.CTkButton(SolvedTimes_frame,  text=alltimes[solve], command = lambda s=solve: EditSolve(s), 
-                          height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
-                          font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
-                ) .grid(row = rownum+1, column = 0, padx = (25, 4), pady = 4)   #Gridding Left most Button
 
-            if file.loc[index, 'Type'] == "DNF": label("DNF", 0)                #Checking the type of solve
-            elif file.loc[index, 'Type'] == "+2": label("+2", 0)
-
-        if (solve-1)%4 == 0:
-            ctk.CTkButton(SolvedTimes_frame,  text=alltimes[solve], command = lambda s=solve: EditSolve(s), 
-                          height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
-                          font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
-                ) .grid(row = rownum+1, column = 1, padx = 4)                   #Gridding Middle Left Button
-            
-            if file.loc[index, 'Type'] == "DNF": label("DNF", 1)                #Checking the type of solve
-            elif file.loc[index, 'Type'] == "+2": label("+2", 1)
-
-        if (solve-2)%4 == 0:
-            ctk.CTkButton(SolvedTimes_frame,  text=alltimes[solve], command = lambda s=solve: EditSolve(s), 
-                          height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
-                          font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
-                ) .grid(row = rownum+1, column = 2, padx = 4)                   #Gridding Middle Right Button
-            
-            if file.loc[index, 'Type'] == "DNF": label("DNF", 2)                #Checking the type of solve
-            elif file.loc[index, 'Type'] == "+2": label("+2", 2)
-
-        if (solve-3)%4 == 0:
-            ctk.CTkButton(SolvedTimes_frame,  text=alltimes[solve], command = lambda s=solve: EditSolve(s), 
-                          height= 75, hover_color = hovercolour, fg_color=buttoncolour, text_color = timestextcolour,
-                          font = ctk.CTkFont(family = "Calibri", size=15, weight="bold")
-                ) .grid(row = rownum+1, column = 3, padx = (4, 25))             #Gridding Right most Button
-            
-            if file.loc[index, 'Type'] == "DNF": label("DNF", 3)
-            elif file.loc[index, 'Type'] == "+2": label("+2", 3)                #Checking the type of solve
-
-            rownum += 1         #Gridding the next Solves Times buttons in the next row down
+        if (solve-0)%4 == 0: creatingbuttons(0, 25, 4)
+        if (solve-1)%4 == 0: creatingbuttons(1, 4, 4)
+        if (solve-2)%4 == 0: creatingbuttons(2, 4, 4)
+        if (solve-3)%4 == 0: creatingbuttons(3, 4, 25)
 
 def Graph():                 #Draw the Line Graph of all the times
 
@@ -1285,7 +1248,7 @@ def StatsGUI():              #Function for statistics interface                 
             return(round((sum(times)/len(times)),2))                                                 #Calculating the average
         except: return(0)                                                                            #If there is no solves, return "0"
 
-    reset()              #Removing the previous Frame
+    reset()                      #Removing the previous Frame
 
     """Creating the statistics and solved times interface"""
     stats_frame.place(relx = 0.325, rely = 0.5, relheight=1, relwidth=0.45, anchor=CENTER)           #Creating/Resetting the Frames
@@ -1304,49 +1267,26 @@ def StatsGUI():              #Function for statistics interface                 
     sta1_frame.place(relx=0.28, rely=0.3, relheight=0.28, relwidth=0.42, anchor=CENTER)              #Placing the subframes
     sta2_frame.place(relx=0.72, rely=0.3, relheight=0.28, relwidth=0.42, anchor=CENTER)
 
+    def creatinglabels(frametype, text, fontweight, x, y):                                           #Function for creating the stats labels
+        
+        ctk.CTkLabel(frametype, text = text,font = ctk.CTkFont(family = "Calibri", size=15, weight=fontweight),
+            fg_color = framecolour, text_color=statstextcolour).place(relx=x, rely=y, anchor=W)
+
     """Labels for subframe 1"""
-    ctk.CTkLabel(sta1_frame, text = "Total Solves", 
-            font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
-            fg_color = framecolour, text_color=statstextcolour                          #Total Solves Label
-            ).place(relx=0.15, rely=0.2, anchor=W)
-    
-    ctk.CTkLabel(sta1_frame, text = (TotalSolves()), 
-            font = ctk.CTkFont(family = "Calibri", size=15),
-            fg_color = framecolour, text_color=statstextcolour                          #Total Solves
-            ).place(relx=0.3, rely=0.38, anchor=W)
 
-    ctk.CTkLabel(sta1_frame, text = "Session Mean", 
-            font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
-            fg_color = framecolour, text_color=statstextcolour                          #Session Mean Label
-            ).place(relx=0.15, rely=0.6, anchor=W)
-
-    ctk.CTkLabel(sta1_frame, text = (MeanCALC()),
-            font = ctk.CTkFont(family = "Calibri", size=15),
-            fg_color = framecolour, text_color=statstextcolour                          #Session Mean
-            ).place(relx=0.3, rely=0.78, anchor=W)
+    creatinglabels(sta1_frame, "Total Solves", "bold", 0.15, 0.2)                                    #Total Solves Label
+    creatinglabels(sta1_frame, TotalSolves(), "normal", 0.3, 0.38)                                   #Total Solves
+    creatinglabels(sta1_frame, "Session Mean", "bold", 0.15, 0.6)                                    #Session Mean Label
+    creatinglabels(sta1_frame, MeanCALC(), "normal", 0.3, 0.78)                                      #Session Mean
 
     """Labels for subframe 2"""
-    ctk.CTkLabel(sta2_frame, text = "Best Solve", 
-            font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
-            fg_color = framecolour, text_color=statstextcolour                          #Total Solves Label
-            ).place(relx=0.15, rely=0.2, anchor=W)
+
+    creatinglabels(sta2_frame, "Best Solve", "bold", 0.15, 0.2)                                      #Best Solve Label
+    creatinglabels(sta2_frame, FastestSolve(), "normal", 0.3, 0.38)                                  #Best Solve
+    creatinglabels(sta2_frame, "Current AO"+str(avg1), "bold", 0.15, 0.6)                            #Current Average Label
+    creatinglabels(sta2_frame, AverageCALC(avg1), "normal", 0.3, 0.78)                               #Current Average Mean
     
-    ctk.CTkLabel(sta2_frame, text = (FastestSolve()), 
-            font = ctk.CTkFont(family = "Calibri", size=15),
-            fg_color = framecolour, text_color=statstextcolour                          #Total Solves
-            ).place(relx=0.3, rely=0.38, anchor=W)
-
-    ctk.CTkLabel(sta2_frame, text = "Current AO"+str(avg1), 
-            font = ctk.CTkFont(family = "Calibri", size=15, weight="bold"),
-            fg_color = framecolour, text_color=statstextcolour                          #Session Mean Label
-            ).place(relx=0.15, rely=0.6, anchor=W)
-
-    ctk.CTkLabel(sta2_frame, text = (AverageCALC(avg1)), 
-            font = ctk.CTkFont(family = "Calibri", size=15),
-            fg_color = framecolour, text_color=statstextcolour                          #Session Mean
-            ).place(relx=0.3, rely=0.78, anchor=W)
     
-
     Graph()                 #Displaying the graph
 
     ctk.CTkLabel(graph_frame, text = "Time Trend", 
@@ -1377,26 +1317,16 @@ def GenerateScramble():      #Function to generate a random Cube Scramble
                 ar[x][0] = random.choice(moves)
         return ar
     
-    if session == '3x3':            #Scramble generator for 3x3 sessions
+    def generate(scramble):
         #Make array of arrays that represent moves ex. U' = ['U', "'"]
-        s = valid([[random.choice(moves), random.choice(dir)] for x in range(scramble_three_size)])
+        s = valid([[random.choice(moves), random.choice(dir)] for x in range(scramble)])
 
         #Format scramble to a string with movecount
         return (''.join(str(s[x][0]) + str(s[x][1]) + ' ' for x in range(len(s))))
-    
-    if session == '2x2':            #Scramble generator for 2x2 sessions
-        #Make array of arrays that represent moves ex. U' = ['U', "'"]
-        s = valid([[random.choice(moves), random.choice(dir)] for x in range(scramble_two_size)])
 
-        #Format scramble to a string with movecount
-        return (''.join(str(s[x][0]) + str(s[x][1]) + ' ' for x in range(len(s))))
-    
-    if session == '4x4':            #Scramble generator for 4x4 sessions
-        #Make array of arrays that represent moves ex. U' = ['U', "'"]
-        s = valid([[random.choice(moves), random.choice(dir)] for x in range(scramble_four_size)])
-
-        #Format scramble to a string with movecount
-        return (''.join(str(s[x][0]) + str(s[x][1]) + ' ' for x in range(len(s))))
+    if session == '3x3': return(generate(scramble_three_size))              #Scramble generator for 3x3 sessions
+    if session == '2x2': return(generate(scramble_two_size))                #Scramble generator for 2x2 sessions
+    if session == '4x4': return(generate(scramble_four_size))               #Scramble generator for 4x4 sessions
     
 class StopWatch(Frame):      #Timing Class that controls the stopwatch
     global Timer
@@ -1499,7 +1429,7 @@ def AverageCALC(num):        #Function for calculating averages
 
         if len(times) >= num:                             #Checking to see if there is enough recorded times
             return(round((sum(times)/len(times)),2))      #Calculating the average
-        else: return("N/A")                               #If there is not enough recorded times, return "N/A"
+        else: return("N/A")                                 #If there is not enough recorded times, return "N/A"
     except: return("N/A")                                 #If there is an error, return "N/A"
 
 def TimerGUI():              #Function for timer interface                                      (TIMER INTERFACE)
@@ -1582,9 +1512,13 @@ def TimerGUI():              #Function for timer interface                      
             Time = stopwatch_frame.Stop()                                                   #Stopping the time
             Split_Time = (str(Time).split(".")[0])+"."+(str(Time).split(".")[1])[:2]        #Recording the time
             
-            file = open("Solved Times/"+sessionname+".csv",'a+')                            #Uploading the time and scrable onto a csv file
-            file.writelines([Split_Time, ",", Scramble, ",ok", "\n"])
-            file.close()
+            if float(Split_Time) > 0.4 and float(Split_Time) < 900:                         #Adding boundries to the time
+                file = open("Solved Times/"+sessionname+".csv",'a+')                        #Uploading the time and scrable onto a csv file
+                file.writelines([Split_Time, ",", Scramble, ",ok", "\n"])
+                file.close()
+            else:                                                                           #If the time does not sit between the boundry, dont record it
+                file = pd.read_csv("Solved Times/"+sessionname+".csv")
+                stopwatch_frame.editedtime(file.iloc[-1, 0])
 
             Scramble = GenerateScramble()                                                   #Generate a new scramble
             Timer = False
@@ -1649,10 +1583,11 @@ def TimerGUI():              #Function for timer interface                      
                     dnftime()                                                               #Make the solve a dnf
 
                 else: dnftime()                                                             #Make the solve a dnf
-        except: pass
+        except: messagebox.showinfo(title="Warning Message!", message = 'You have no solves in your session to dnf')
 
 
     def edit(event):                        #Funtion to make a solve a +2
+        print(TotalSolves())
         try:
             file = pd.read_csv("Solved Times/"+sessionname+".csv")                          #Reading the csv file
             solvetime = file.iloc[TotalSolves(), 0]                                         #Getting the selected time
@@ -1670,7 +1605,7 @@ def TimerGUI():              #Function for timer interface                      
 
                     stopwatch_frame.editedtime(str(round(float(solvetime + 2), 2)))         #Update the Timer Label
 
-        except: pass
+        except: messagebox.showinfo(title="Warning Message!", message = 'You have no solves in your session to +2')
 
 
     def delete(event):                      #Deleting the solves
@@ -1687,7 +1622,7 @@ def TimerGUI():              #Function for timer interface                      
 
                 stopwatch_frame.deletedtime()                                      #Update the Timer Label
 
-        except: pass
+        except: messagebox.showinfo(title="Warning Message!", message = 'You have no solves in your session to delete')
 
 
     def ok(event):                          #Reseting thier time
@@ -1714,7 +1649,7 @@ def TimerGUI():              #Function for timer interface                      
                     
                     stopwatch_frame.editedtime(file.iloc[-1, 0])                             #Update the Timer Label
 
-        except: pass
+        except: messagebox.showinfo(title="Warning Message!", message = 'You have no solves in your session')
 
 
     #Keybinds of the editing solves
@@ -1816,7 +1751,7 @@ def main():                  #Main function for all variables
     main_window.geometry('%dx%d+%d+%d' % (width, height, x, y))
 
     main_window.minsize(740, 380)
-    #main_window.maxsize(1300, 700)
+    main_window.maxsize(1100, 600)
     #main_window.resizable(False, False)
 
     main_window.title("Cube Timer Assessment - Leo Cao")

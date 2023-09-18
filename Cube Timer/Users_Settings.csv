@@ -22,7 +22,7 @@ GraphLineColour,black
 LabelColour,white
 LabelTextColour,black
 GraphColour,#ffffff
-ValidityText,black
+ValidityText,red
 RadioHover,#7b7c79
 TimesTextColour,black
 binddnf,1
